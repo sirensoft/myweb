@@ -5,6 +5,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import MyCom from './components/MyCom'
 import MyForm from './components/MyForm'
+import MyFormData from './components/MyFormData'
 
-ReactDOM.render(<App/>, document.getElementById('root'));
+ReactDOM.render(<MyFormData/>, document.getElementById('root'));
 registerServiceWorker();
