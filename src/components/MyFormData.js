@@ -118,7 +118,8 @@ class MyFormData extends Component {
                                     },
                                     {
                                         Header: "วดป.เกิด",
-                                        accessor :"birth"
+                                        id:'birth',
+                                        accessor : d=>moment(d.birth).format("YYYY-MM-DD")
                                     }
                                 ]
                             }

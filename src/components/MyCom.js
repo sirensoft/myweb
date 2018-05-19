@@ -15,6 +15,7 @@ btnClick=()=>{
         myname:'xxxxx',
         lname:'ssssss'
     })
+    this.props.history.push('/data')
 }
 
 changeName=(e)=>{
