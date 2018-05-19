@@ -3,7 +3,10 @@ import axios from 'axios'
 import DatePicker from 'react-datepicker'
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
-import { read } from 'fs';
+
+import ReactTable from "react-table";
+import "react-table/react-table.css";
+
 
 class MyFormData extends Component {
     constructor(props) {
@@ -18,7 +21,7 @@ class MyFormData extends Component {
     }
 
     async componentDidMount() {
-        
+
     }
 
 
@@ -37,11 +40,12 @@ class MyFormData extends Component {
         e.preventDefault();
         let resp = await axios.post('http://localhost:4000/', {
             prename: this.state.prename,
-            fname:this.state.fname,
-            lname:this.state.lname,
-            birth:this.state.birth
+            fname: this.state.fname,
+            lname: this.state.lname,
+            birth: moment(this.state.birth).format("YYYY-MM-DD")
         });
-        
+        alert(resp.data)
+
         this.setState({
             prename: 'นาย',
             fname: '',
@@ -50,11 +54,13 @@ class MyFormData extends Component {
         })
     }
     render() {
-        axios.get('http://localhost:4000/').then((resp)=>{
+
+        axios.get('http://localhost:4000/').then((resp) => {
             this.setState({
-                items:resp.data
+                items: resp.data
             })
         })
+
         return (
             <div>
                 <form onSubmit={this.onSubmit}>
@@ -81,15 +87,45 @@ class MyFormData extends Component {
                 </form>
                 <div>
                     {
-                        this.state.items.map((row,i)=>(
+                        this.state.items.map((row, i) => (
                             <li key={i}>
-                            {row.prename},
+                                {row.prename},
                             {row.fname},
                             {row.lname},
                             {moment(row.birth).format("YYYY-MM-DD")}
                             </li>
                         ))
                     }
+                </div>
+                <div>
+                    <ReactTable
+                        data={this.state.items}
+                        columns={[
+                            {
+                                
+                                columns: [
+                                    {
+                                        Header: "คำนำ",
+                                        accessor: "prename"
+                                    },
+                                    {
+                                        Header: "First Name",
+                                        accessor: "fname"
+                                    },
+                                    {
+                                        Header: "Last Name",                                        
+                                        accessor: "lname"
+                                    },
+                                    {
+                                        Header: "วดป.เกิด",
+                                        accessor :"birth"
+                                    }
+                                ]
+                            }
+                        ]}
+                        defaultPageSize={10}
+                        className="-striped -highlight"
+                    />
                 </div>
             </div>
         )
